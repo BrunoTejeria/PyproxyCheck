@@ -1,5 +1,12 @@
-from Main.Files.text import Text
+from main.Files.text import Text
+from config import Config
 
-root_text = Text()
 
-root_text.read_all("proxies.txt")
+class Root(Text, Config):
+    def __init__(self):
+
+        self.read_all("ggg.txt")
+
+
+main = Root()
+
