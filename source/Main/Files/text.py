@@ -87,5 +87,34 @@ class Text:
         except Exception as e:
             return False
 
-    def write_lines(self, file: str, content: list) -> bool:
-        pass
+    def write_lines(self, file: str = "results.txt", content: list = [], mode: str = "w") -> bool:
+        """
+        Function:
+        - Escribir un str en un archivo
+
+        Parameters:
+        - file (str): Ruta del archivo a leer.
+        - content (str): Contenido el cual se escribirá en el archivo.
+        - mode (str) -> ["w","a"]: Modo de escritura del archivo que solo puede ser write o append.
+
+        Returns:
+        - True or False: Si se completa la función exitosamente retorna True, si no retorna False.
+
+        """
+
+        # Chequear si el modo el write o append.
+        options = ["w", "a"]
+        if mode is not None and mode not in options:
+            raise ValueError(f"La opción proporcionada no es válida. Debe ser {options}")
+
+
+        try:
+            with open(file=file, mode=mode, encoding="utf-8") as f:
+                f.writelines(content)
+                return True
+        except FileNotFoundError as e:
+            logging.critical(e, " | ", __file__)
+            return False
+        except Exception as e:
+            logging.critical(e, " | ",__file__)
+            return False

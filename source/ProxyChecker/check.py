@@ -12,6 +12,7 @@ class Check():
 		self.proxies: list = proxies
 		self.url: str = url
 		self.ssl: str = ssl
+		self.working_proxies:list = []
 		def check(proxy):
 			try:
 				# Realizar una solicitud a través del proxy
@@ -56,10 +57,11 @@ class Check():
 		# Imprimir los resultados
 		for proxy, result in checked_proxies:
 			if result:
+				self.working_proxies.append(proxy)
 				print(f"Proxy {proxy} está funcionando correctamente.")
 			else:
 				print(f"Error al verificar el proxy {proxy}.")
-		return checked_proxies
+		return self.working_proxies
   
 
   
