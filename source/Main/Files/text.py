@@ -90,7 +90,7 @@ class Text:
     def write_lines(self, file: str = "results.txt", content: list = [], mode: str = "w") -> bool:
         """
         Function:
-        - Escribir un str en un archivo
+        - Escribir una lista en un archivo
 
         Parameters:
         - file (str): Ruta del archivo a leer.
@@ -113,8 +113,8 @@ class Text:
                 f.writelines(content)
                 return True
         except FileNotFoundError as e:
-            logging.critical(e, " | ", __file__)
+            logging.error(f"No se pudo encontrar el archivo ' {file}': {e} | File: {__file__}")
             return False
         except Exception as e:
-            logging.critical(e, " | ",__file__)
+            logging.error(f"Error en archivo de escritura: {e} | File: {__file__}")
             return False

@@ -1,6 +1,12 @@
 import logging
 import requests
 from concurrent.futures import ThreadPoolExecutor
+from colorama import (
+	Fore,
+	init as coloramaInit
+)
+coloramaInit(autoreset=True)
+
 
 class Check():
 	def __init__():
@@ -13,22 +19,23 @@ class Check():
 		self.url: str = url
 		self.ssl: str = ssl
 		self.working_proxies:list = []
-		def check(proxy):
+		def check(proxy: str) -> bool:
 			try:
-				# Realizar una solicitud a través del proxy
-				if self.ssl == True:
-					response = requests.get(self.url, proxies={"http": self.proxies}, timeout=self.timeout, headers=self.headers)
-				else:
-					response = requests.get(self.url, proxies={"http": self.proxies}, timeout=self.timeout, headers=self.headers)
+ 				# Realizar una solicitud a través del proxy
+				session = requests.session()
+				session.proxies = {"http": proxy}
+				session.timeout = self.timeout
 
+				response = session.get(self.url)
 
 				# Verificar el código de estado de la respuesta
 				if response.status_code == 200:
-					logging.info(f"proxy working: {proxy}")
-					return True
+					self.working_proxies.append(proxy)
+					logging.info(f"Proxy funcionando: {proxy}")
+					print(Fore.GREEN + f"Proxy funcionando: {proxy}")
 				else:
-					logging.info(f"proxy not working: {proxy}")
-					return False
+					logging.info(f"Proxy no funcionando: {proxy}")
+					print(Fore.RED + f"Proxy no funcionando: {proxy}")
 
 			except Exception as e:
 				# Manejar errores de conexión al proxy
@@ -53,14 +60,6 @@ class Check():
 
 			# Incrementar el contador para el siguiente lote de proxies
 			count += num_checks
-
-		# Imprimir los resultados
-		for proxy, result in checked_proxies:
-			if result:
-				self.working_proxies.append(proxy)
-				print(f"Proxy {proxy} está funcionando correctamente.")
-			else:
-				print(f"Error al verificar el proxy {proxy}.")
 		return self.working_proxies
   
 
