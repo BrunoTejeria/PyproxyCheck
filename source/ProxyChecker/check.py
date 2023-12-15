@@ -17,9 +17,9 @@ class Check():
 			try:
 				# Realizar una solicitud a través del proxy
 				if self.ssl == True:
-					response = requests.get("https://google.com", proxies={"http": self.proxies}, timeout=self.timeout, headers=self.headers)
+					response = requests.get(self.url, proxies={"http": self.proxies}, timeout=self.timeout, headers=self.headers)
 				else:
-					response = requests.get("https://youtube.com", proxies={"http": self.proxies}, timeout=self.timeout, headers=self.headers)
+					response = requests.get(self.url, proxies={"http": self.proxies}, timeout=self.timeout, headers=self.headers)
 
 
 				# Verificar el código de estado de la respuesta
